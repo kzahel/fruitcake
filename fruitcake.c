@@ -28,7 +28,7 @@ struct Board* Board_new(int width, int height) {
   // allocates memory for all the tiles in the board
   struct Board* b;
 
-  struct Tile** tiles = malloc(sizeof(struct Tile) * width * height);
+  struct Tile* tiles = calloc(width*height, sizeof(struct Tile));
 
   b->tiles = tiles;
 
@@ -50,7 +50,7 @@ int main(int argc, char** argv) {
   printf("tile %c\n", t->color);
 
 
-  struct Board* b = Board_new(10,20);
+  struct Board* b = Board_new(15,20);
 
   puts("prog end");
   return 0;
