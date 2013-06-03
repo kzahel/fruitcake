@@ -2,6 +2,16 @@
 #include<stdlib.h>
 #include<math.h>
 
+
+// goals for a board
+enum board_goal {
+  CLEAR_JELLY,
+  DROP_ITEMS,
+  REACH_SCORE
+};
+
+
+
 struct Tile {
   char color;
 };
@@ -115,14 +125,42 @@ void Board_randomize(struct Board* board) {
 
 }
 
+struct Board* Board_clone(struct Board* board) {
+  
+}
+
+struct Coord {
+  int x;
+  int y;
+};
+
+struct Coord** Board_get_matching_line(struct Board* board, struct Coord* c) {
+  // returns a list of coordinates 
+}
+
+struct Coord** Board_check_has_matches(struct Board* board, struct Coord* coords) {
+  // checks whether board has matches and returns coords where shit should blow up
+}
+
+void Board_blow_up(struct Board* board, struct Coord* coords) {
+  // blows up pieces on board at input coords
+  
+}
+
+
+bool Board_do_gravity(struct Board* board) {
+  // makes pieces fall down
+
+  // call this repeatedly until returns false
+}
+
+
+
 
 int main(int argc, char** argv) {
 
-  puts("prog begin");
-
   struct Tile* t = Tile_new('f');
   printf("tile %c\n", t->color);
-
 
   struct Board* b = Board_new(4,4);
   struct Tile* t2 = Board_get(b,0,0);
@@ -136,9 +174,10 @@ int main(int argc, char** argv) {
 
   Board_print(b);
 
-  puts("prog end");
-  return 0;
 
+  struct Board* b2 = Board_clone(b);
+
+  return 0;
 }
 
 
