@@ -284,7 +284,7 @@ int main(int argc, char** argv) {
   struct Tile* t = Tile_new('f');
   printf("tile %c\n", t->color);
 
-  struct Board* b = Board_new(6,6);
+  struct Board* b = Board_new(9,9);
   struct Tile* t2 = Board_get(b,0,0);
   
   printf("tile %c\n", t2->color);
