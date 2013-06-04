@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<math.h>
+#include <string>
 
 typedef unsigned char byte;
 
@@ -49,12 +50,6 @@ struct Tile* Tile_new(char c) {
   return newtile;
 }
 
-struct Tile* Tile_new_steal(void * ptr) {
-  // creates a tile structure at a given memory location
-  struct Tile* t = ptr;
-  return t;
-}
-
 void Tile_print(struct Tile* t) {
   printf("<Tile(color:%c)>\n", t->color);
 }
@@ -81,8 +76,6 @@ struct Board* Board_new(int width, int height) {
 
 struct Tile* Board_get(struct Board* board, int x, int y) {
   return board->tiles + y*board->width + x;
-  //struct Tile* t = Tile_new_steal( &board->tiles + (y*board->width) + x );
-  //return t;
 }
 
 void Board_set(struct Board* board, int x, int y, char color) {
@@ -91,7 +84,7 @@ void Board_set(struct Board* board, int x, int y, char color) {
 }
 
 void Board_print(struct Board* board) {
-  printf("printing board %d\n\n", (int) &board);
+  printf("printing board %p\n\n", (void*) &board);
 
   for (int y=0; y<board->height; y++) {
     for (int x=0; x<board->width; x++) {
@@ -103,7 +96,7 @@ void Board_print(struct Board* board) {
   printf("\ndone printing board\n");
 }
 
-int randrange(maxval) {
+int randrange(int maxval) {
   return random() % maxval;
   /*
   long v = random();
@@ -125,7 +118,7 @@ void Board_randomize(struct Board* board) {
 
 
   //int firstletter = atoi(a);
-  char* a = "a";
+  std::string a = "a";
   int firstlettervalue = (int) a[0];
 
   //int firstletter
@@ -147,7 +140,9 @@ void Board_randomize(struct Board* board) {
 }
 
 struct Board* Board_clone(struct Board* board) {
-  
+  struct Board* c = Board_new(board->width, board->height);
+  memcpy(c, board, sizeof(struct Board));
+  return c;
 }
 
 struct Coord {
@@ -157,9 +152,10 @@ struct Coord {
 
 struct Coord** Board_get_matching_line(struct Board* board, struct Coord* c) {
   // returns a list of coordinates 
+  
 }
 
-struct Coords* Board_check_matching_at(struct Board* board, int x, int y) {
+int Board_check_matching_at(struct Board* board, int x, int y) {
   // check if 3 or more in a row here, or other special patterns
 
   int colorhere = Board_get(board, x, y)->color;
@@ -234,7 +230,7 @@ struct Coords* Board_check_matching_at(struct Board* board, int x, int y) {
 }
 
 
-struct Coord** Board_check_has_matches(struct Board* board, struct Coord* coords, int dx, int dy) {
+int Board_check_has_matches(struct Board* board, struct Coord* coords, int dx, int dy) {
   /* dx and dy are which direction the move came from, if any */
   int match;
 
@@ -248,6 +244,7 @@ struct Coord** Board_check_has_matches(struct Board* board, struct Coord* coords
   }
 
   // checks whether board has matches and returns coords where shit should blow up
+  return 0;
 }
 
 
@@ -272,7 +269,7 @@ int Board_do_gravity(struct Board* board) {
 
 
   // OR: look for empty fillable space. see if it's reachable by any other piece...
-
+  return 0;
 }
 
 
@@ -295,9 +292,6 @@ int main(int argc, char** argv) {
   Board_randomize(b);
 
   Board_print(b);
-
-
-  
 
   struct Board* b2 = Board_clone(b);
 
